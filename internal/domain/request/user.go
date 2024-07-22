@@ -1,5 +1,5 @@
 package request
 
 type UserRequest struct {
-	Username string
+	Username string `json:"username"`
 }
