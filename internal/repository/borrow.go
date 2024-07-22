@@ -6,25 +6,25 @@ import (
 )
 
 type BorrowRepository struct {
-	DB map[string]*domain.Borrow
+	db map[string]*domain.Borrow
 }
 
 func NewBorrowRepository() IBorrowRepository {
 	return &BorrowRepository{
-		DB: make(map[string]*domain.Borrow),
+		db: make(map[string]*domain.Borrow),
 	}
 }
 
 func (r *BorrowRepository) GetAll() []*domain.Borrow {
 	borrowedBooks := make([]*domain.Borrow, 0)
-	for _, borrowedBook := range r.DB {
+	for _, borrowedBook := range r.db {
 		borrowedBooks = append(borrowedBooks, borrowedBook)
 	}
 	return borrowedBooks
 }
 
 func (r *BorrowRepository) Borrow(borrow *domain.Borrow) (*domain.Borrow, error) {
-	for _, borrowedBook := range r.DB {
+	for _, borrowedBook := range r.db {
 		if borrowedBook.BookID == borrow.BookID &&
 			borrowedBook.Status == domain.StatusBorrowed &&
 			utils.TimeIsBetween(borrow.StartDate, borrowedBook.StartDate, borrowedBook.EndDate) {
@@ -32,12 +32,12 @@ func (r *BorrowRepository) Borrow(borrow *domain.Borrow) (*domain.Borrow, error)
 		}
 	}
 
-	r.DB[borrow.ID] = borrow
+	r.db[borrow.ID] = borrow
 	return borrow, nil
 }
 
 func (r *BorrowRepository) GetBorrowedBook(userID, bookID string) (*domain.Borrow, error) {
-	for _, borrowedBook := range r.DB {
+	for _, borrowedBook := range r.db {
 		if borrowedBook.UserID == userID &&
 			borrowedBook.BookID == bookID &&
 			borrowedBook.Status == domain.StatusBorrowed {
@@ -49,9 +49,9 @@ func (r *BorrowRepository) GetBorrowedBook(userID, bookID string) (*domain.Borro
 }
 
 func (r *BorrowRepository) UpdateStatus(borrowID string, status domain.Status) (*domain.Borrow, error) {
-	if borrow, exists := r.DB[borrowID]; exists {
+	if borrow, exists := r.db[borrowID]; exists {
 		borrow.Status = status
-		r.DB[borrowID] = borrow
+		r.db[borrowID] = borrow
 		return borrow, nil
 	}
 

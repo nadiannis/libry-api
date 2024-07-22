@@ -6,30 +6,30 @@ import (
 )
 
 type BookRepository struct {
-	DB map[string]*domain.Book
+	db map[string]*domain.Book
 }
 
 func NewBookRepository() IBookRepository {
 	return &BookRepository{
-		DB: make(map[string]*domain.Book),
+		db: make(map[string]*domain.Book),
 	}
 }
 
 func (r *BookRepository) GetAll() []*domain.Book {
 	books := make([]*domain.Book, 0)
-	for _, book := range r.DB {
+	for _, book := range r.db {
 		books = append(books, book)
 	}
 	return books
 }
 
 func (r *BookRepository) Add(book *domain.Book) *domain.Book {
-	r.DB[book.ID] = book
+	r.db[book.ID] = book
 	return book
 }
 
 func (r *BookRepository) GetByID(bookID string) (*domain.Book, error) {
-	if book, exists := r.DB[bookID]; exists {
+	if book, exists := r.db[bookID]; exists {
 		return book, nil
 	}
 

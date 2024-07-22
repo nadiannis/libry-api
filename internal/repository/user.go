@@ -6,30 +6,30 @@ import (
 )
 
 type UserRepository struct {
-	DB map[string]*domain.User
+	db map[string]*domain.User
 }
 
 func NewUserRepository() IUserRepository {
 	return &UserRepository{
-		DB: make(map[string]*domain.User),
+		db: make(map[string]*domain.User),
 	}
 }
 
 func (r *UserRepository) GetAll() []*domain.User {
 	users := make([]*domain.User, 0)
-	for _, user := range r.DB {
+	for _, user := range r.db {
 		users = append(users, user)
 	}
 	return users
 }
 
 func (r *UserRepository) Add(user *domain.User) *domain.User {
-	r.DB[user.ID] = user
+	r.db[user.ID] = user
 	return user
 }
 
 func (r *UserRepository) GetByID(userID string) (*domain.User, error) {
-	if user, exists := r.DB[userID]; exists {
+	if user, exists := r.db[userID]; exists {
 		return user, nil
 	}
 
@@ -37,7 +37,7 @@ func (r *UserRepository) GetByID(userID string) (*domain.User, error) {
 }
 
 func (r *UserRepository) AddBook(userID string, book *domain.Book) (*domain.Book, error) {
-	if user, exists := r.DB[userID]; exists {
+	if user, exists := r.db[userID]; exists {
 		user.Books = append(user.Books, book)
 		return book, nil
 	}
@@ -46,7 +46,7 @@ func (r *UserRepository) AddBook(userID string, book *domain.Book) (*domain.Book
 }
 
 func (r *UserRepository) DeleteBookByID(userID, bookID string) error {
-	user, exists := r.DB[userID]
+	user, exists := r.db[userID]
 	if !exists {
 		return utils.ErrUserNotFound
 	}
