@@ -11,6 +11,12 @@ type UserUsecase struct {
 	repository repository.UserRepository
 }
 
+func NewUserUsecase(repository repository.UserRepository) UserUsecase {
+	return UserUsecase{
+		repository: repository,
+	}
+}
+
 func (u *UserUsecase) GetAll() []*domain.User {
 	return u.repository.GetAll()
 }

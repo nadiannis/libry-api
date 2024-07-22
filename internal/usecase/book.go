@@ -11,6 +11,12 @@ type BookUsecase struct {
 	repository repository.BookRepository
 }
 
+func NewBookUsecase(repository repository.BookRepository) BookUsecase {
+	return BookUsecase{
+		repository: repository,
+	}
+}
+
 func (u *BookUsecase) GetAll() []*domain.Book {
 	return u.repository.GetAll()
 }

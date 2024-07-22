@@ -13,6 +13,12 @@ type BookHandler struct {
 	usecase usecase.BookUsecase
 }
 
+func NewBookHandler(usecase usecase.BookUsecase) BookHandler {
+	return BookHandler{
+		usecase: usecase,
+	}
+}
+
 func (h *BookHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	books := h.usecase.GetAll()
 

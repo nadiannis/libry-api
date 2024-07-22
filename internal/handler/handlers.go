@@ -10,18 +10,6 @@ type Handlers struct {
 func NewHandlers() Handlers {
 	return Handlers{
 		Books: NewBookHandler(usecase.NewUsecases().Books),
-		Users: NewUsersHandler(usecase.NewUsecases().Users),
-	}
-}
-
-func NewBookHandler(usecase usecase.BookUsecase) BookHandler {
-	return BookHandler{
-		usecase: usecase,
-	}
-}
-
-func NewUsersHandler(usecase usecase.UserUsecase) UserHandler {
-	return UserHandler{
-		usecase: usecase,
+		Users: NewUserHandler(usecase.NewUsecases().Users),
 	}
 }
