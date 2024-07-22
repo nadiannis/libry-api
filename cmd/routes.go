@@ -8,5 +8,5 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("GET /api/books", app.handlers.Books.ListBooksHandler)
 	mux.HandleFunc("POST /api/books", app.handlers.Books.AddBookHandler)
 
-	return mux
+	return requestLogger(mux)
 }

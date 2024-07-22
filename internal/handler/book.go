@@ -1,14 +1,12 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/nadiannis/libry-api/internal/domain/request"
 	"github.com/nadiannis/libry-api/internal/domain/response"
 	"github.com/nadiannis/libry-api/internal/usecase"
 	"github.com/nadiannis/libry-api/internal/utils"
-	"github.com/rs/zerolog/log"
 )
 
 type BookHandler struct {
@@ -24,8 +22,6 @@ func (h *BookHandler) ListBooksHandler(w http.ResponseWriter, r *http.Request) {
 		Data:    books,
 	}
 
-	req := fmt.Sprint(r.Method, " ", r.URL.String())
-	log.Info().Str("request", req).Msg("books retrieved successfully")
 	err := utils.WriteJSON(w, http.StatusOK, res, nil)
 	if err != nil {
 		utils.ServerErrorResponse(w, r, err)
@@ -59,8 +55,6 @@ func (h *BookHandler) AddBookHandler(w http.ResponseWriter, r *http.Request) {
 		Data:    book,
 	}
 
-	req := fmt.Sprint(r.Method, " ", r.URL.String())
-	log.Info().Str("request", req).Msg("book added successfully")
 	err = utils.WriteJSON(w, http.StatusCreated, res, nil)
 	if err != nil {
 		utils.ServerErrorResponse(w, r, err)
