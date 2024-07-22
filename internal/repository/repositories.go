@@ -3,8 +3,9 @@ package repository
 import "github.com/nadiannis/libry-api/internal/domain"
 
 type Repositories struct {
-	Books BookRepository
-	Users UserRepository
+	Books   BookRepository
+	Users   UserRepository
+	Borrows BorrowRepository
 }
 
 func NewRepositories() Repositories {
@@ -14,6 +15,9 @@ func NewRepositories() Repositories {
 		},
 		Users: UserRepository{
 			DB: make(map[string]*domain.User),
+		},
+		Borrows: BorrowRepository{
+			DB: make(map[string]*domain.Borrow),
 		},
 	}
 }
