@@ -1,11 +1,18 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
 	"github.com/nadiannis/libry-api/internal/domain/response"
 	"github.com/rs/zerolog/log"
+)
+
+var (
+	ErrUserNotFound          = errors.New("user not found")
+	ErrBookNotFound          = errors.New("book not found")
+	ErrBookCurrentlyBorrowed = errors.New("book is currently borrowed")
 )
 
 func errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
@@ -35,6 +42,13 @@ func BadRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
 	log.Error().Str("request", req).Msg(err.Error())
 
 	errorResponse(w, r, http.StatusBadRequest, err.Error())
+}
+
+func NotFoundResponse(w http.ResponseWriter, r *http.Request, err error) {
+	req := fmt.Sprintf("%s %s %s", r.Proto, r.Method, r.URL.RequestURI())
+	log.Error().Str("request", req).Msg(err.Error())
+
+	errorResponse(w, r, http.StatusNotFound, err.Error())
 }
 
 func FailedValidationResponse(w http.ResponseWriter, r *http.Request, errors map[string]string) {

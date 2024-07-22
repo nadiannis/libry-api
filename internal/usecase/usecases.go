@@ -3,15 +3,19 @@ package usecase
 import "github.com/nadiannis/libry-api/internal/repository"
 
 type Usecases struct {
-	Books   BookUsecase
-	Users   UserUsecase
-	Borrows BorrowUsecase
+	Books   IBookUsecase
+	Users   IUserUsecase
+	Borrows IBorrowUsecase
 }
 
-func NewUsecases() Usecases {
+func NewUsecases(repositories repository.Repositories) Usecases {
 	return Usecases{
-		Books:   NewBookUsecase(repository.NewRepositories().Books),
-		Users:   NewUserUsecase(repository.NewRepositories().Users),
-		Borrows: NewBorrowUsecase(repository.NewRepositories().Borrows),
+		Books: NewBookUsecase(repositories.Books),
+		Users: NewUserUsecase(repositories.Users),
+		Borrows: NewBorrowUsecase(
+			repositories.Borrows,
+			repositories.Books,
+			repositories.Users,
+		),
 	}
 }

@@ -12,6 +12,7 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("POST /api/users", app.handlers.Users.Add)
 
 	mux.HandleFunc("GET /api/borrowed-books", app.handlers.Borrows.GetAll)
+	mux.HandleFunc("POST /api/borrowed-books", app.handlers.Borrows.Borrow)
 
 	return requestLogger(mux)
 }

@@ -8,11 +8,11 @@ import (
 )
 
 type UserUsecase struct {
-	repository repository.UserRepository
+	repository repository.IUserRepository
 }
 
-func NewUserUsecase(repository repository.UserRepository) UserUsecase {
-	return UserUsecase{
+func NewUserUsecase(repository repository.IUserRepository) IUserUsecase {
+	return &UserUsecase{
 		repository: repository,
 	}
 }

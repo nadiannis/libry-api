@@ -1,5 +1,7 @@
 package utils
 
+import "time"
+
 type Validator struct {
 	Errors map[string]string
 }
@@ -24,4 +26,20 @@ func (v *Validator) Check(ok bool, field, message string) {
 	if !ok {
 		v.AddError(field, message)
 	}
+}
+
+func PermittedValue[T comparable](value T, permittedValues ...T) bool {
+	for _, permittedValue := range permittedValues {
+		if permittedValue == value {
+			return true
+		}
+	}
+	return false
+}
+
+func TimeIsBetween(t, min, max time.Time) bool {
+	if min.After(max) {
+		min, max = max, min
+	}
+	return (t.Equal(min) || t.After(min)) && (t.Equal(max) || t.Before(max))
 }

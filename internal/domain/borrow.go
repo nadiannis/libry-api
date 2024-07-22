@@ -15,5 +15,5 @@ type Borrow struct {
 	BookID    string    `json:"book_id"`
 	StartDate time.Time `json:"start_date"`
 	EndDate   time.Time `json:"end_date"`
-	Status    string    `json:"status"`
+	Status    Status    `json:"status"`
 }

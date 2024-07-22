@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/nadiannis/libry-api/internal/handler"
+	"github.com/nadiannis/libry-api/internal/repository"
+	"github.com/nadiannis/libry-api/internal/usecase"
 	"github.com/rs/zerolog/log"
 )
 
@@ -14,9 +16,13 @@ type application struct {
 }
 
 func main() {
+	repos := repository.NewRepositories()
+	usecases := usecase.NewUsecases(repos)
+	handlers := handler.NewHandlers(usecases)
+
 	app := &application{
 		port:     8080,
-		handlers: handler.NewHandlers(),
+		handlers: handlers,
 	}
 
 	srv := &http.Server{

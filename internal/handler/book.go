@@ -10,11 +10,11 @@ import (
 )
 
 type BookHandler struct {
-	usecase usecase.BookUsecase
+	usecase usecase.IBookUsecase
 }
 
-func NewBookHandler(usecase usecase.BookUsecase) BookHandler {
-	return BookHandler{
+func NewBookHandler(usecase usecase.IBookUsecase) IBookHandler {
+	return &BookHandler{
 		usecase: usecase,
 	}
 }

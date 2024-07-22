@@ -8,11 +8,11 @@ import (
 )
 
 type BookUsecase struct {
-	repository repository.BookRepository
+	repository repository.IBookRepository
 }
 
-func NewBookUsecase(repository repository.BookRepository) BookUsecase {
-	return BookUsecase{
+func NewBookUsecase(repository repository.IBookRepository) IBookUsecase {
+	return &BookUsecase{
 		repository: repository,
 	}
 }

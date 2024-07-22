@@ -3,15 +3,15 @@ package handler
 import "github.com/nadiannis/libry-api/internal/usecase"
 
 type Handlers struct {
-	Books   BookHandler
-	Users   UserHandler
-	Borrows BorrowHandler
+	Books   IBookHandler
+	Users   IUserHandler
+	Borrows IBorrowHandler
 }
 
-func NewHandlers() Handlers {
+func NewHandlers(usecases usecase.Usecases) Handlers {
 	return Handlers{
-		Books:   NewBookHandler(usecase.NewUsecases().Books),
-		Users:   NewUserHandler(usecase.NewUsecases().Users),
-		Borrows: NewBorrowHandler(usecase.NewUsecases().Borrows),
+		Books:   NewBookHandler(usecases.Books),
+		Users:   NewUserHandler(usecases.Users),
+		Borrows: NewBorrowHandler(usecases.Borrows),
 	}
 }

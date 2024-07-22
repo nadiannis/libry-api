@@ -1,6 +1,6 @@
 package request
 
 type BorrowRequest struct {
-	UserID string
-	BookID string
+	UserID string `json:"user_id"`
+	BookID string `json:"book_id"`
 }
