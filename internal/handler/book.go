@@ -13,7 +13,7 @@ type BookHandler struct {
 	usecase usecase.BookUsecase
 }
 
-func (h *BookHandler) ListBooksHandler(w http.ResponseWriter, r *http.Request) {
+func (h *BookHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	books := h.usecase.GetAll()
 
 	res := response.SuccessResponse{
@@ -28,7 +28,7 @@ func (h *BookHandler) ListBooksHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *BookHandler) AddBookHandler(w http.ResponseWriter, r *http.Request) {
+func (h *BookHandler) Add(w http.ResponseWriter, r *http.Request) {
 	var input request.BookRequest
 
 	err := utils.ReadJSON(r, &input)
