@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	"github.com/nadiannis/libry-api/internal/domain"
 	"github.com/nadiannis/libry-api/internal/utils"
 )
@@ -31,7 +29,6 @@ func (r *UserRepository) Add(user *domain.User) *domain.User {
 }
 
 func (r *UserRepository) GetByID(userID string) (*domain.User, error) {
-	fmt.Println("DB:", r.DB)
 	if user, exists := r.DB[userID]; exists {
 		return user, nil
 	}
