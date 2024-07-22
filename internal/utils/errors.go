@@ -12,6 +12,7 @@ import (
 var (
 	ErrUserNotFound          = errors.New("user not found")
 	ErrBookNotFound          = errors.New("book not found")
+	ErrBorrowedBookNotFound  = errors.New("borrowed book not found")
 	ErrBookCurrentlyBorrowed = errors.New("book is currently borrowed")
 )
 

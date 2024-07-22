@@ -35,3 +35,25 @@ func (r *BorrowRepository) Borrow(borrow *domain.Borrow) (*domain.Borrow, error)
 	r.DB[borrow.ID] = borrow
 	return borrow, nil
 }
+
+func (r *BorrowRepository) GetBorrowedBook(userID, bookID string) (*domain.Borrow, error) {
+	for _, borrowedBook := range r.DB {
+		if borrowedBook.UserID == userID &&
+			borrowedBook.BookID == bookID &&
+			borrowedBook.Status == domain.StatusBorrowed {
+			return borrowedBook, nil
+		}
+	}
+
+	return nil, utils.ErrBorrowedBookNotFound
+}
+
+func (r *BorrowRepository) UpdateStatus(borrowID string, status domain.Status) (*domain.Borrow, error) {
+	if borrow, exists := r.DB[borrowID]; exists {
+		borrow.Status = status
+		r.DB[borrowID] = borrow
+		return borrow, nil
+	}
+
+	return nil, utils.ErrBorrowedBookNotFound
+}

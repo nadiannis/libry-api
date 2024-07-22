@@ -18,4 +18,5 @@ type IBookUsecase interface {
 type IBorrowUsecase interface {
 	GetAll() []*domain.Borrow
 	Borrow(body *request.BorrowRequest) (*domain.Borrow, error)
+	Return(body *request.BorrowRequest) (*domain.Borrow, error)
 }

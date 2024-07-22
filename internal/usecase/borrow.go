@@ -60,3 +60,29 @@ func (u *BorrowUsecase) Borrow(body *request.BorrowRequest) (*domain.Borrow, err
 
 	return borrowedBook, nil
 }
+
+func (u *BorrowUsecase) Return(body *request.BorrowRequest) (*domain.Borrow, error) {
+	user, err := u.userRepository.GetByID(body.UserID)
+	if err != nil {
+		return nil, err
+	}
+
+	book, err := u.bookRepository.GetByID(body.BookID)
+	if err != nil {
+		return nil, err
+	}
+
+	borrowedBook, err := u.borrowRepository.GetBorrowedBook(user.ID, book.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	returnedBook, err := u.borrowRepository.UpdateStatus(borrowedBook.ID, domain.StatusReturned)
+	if err != nil {
+		return nil, err
+	}
+
+	u.userRepository.DeleteBookByID(user.ID, book.ID)
+
+	return returnedBook, nil
+}

@@ -7,6 +7,7 @@ type IUserRepository interface {
 	Add(user *domain.User) *domain.User
 	GetByID(userID string) (*domain.User, error)
 	AddBook(userID string, book *domain.Book) (*domain.Book, error)
+	DeleteBookByID(userID, bookID string) error
 }
 
 type IBookRepository interface {
@@ -18,4 +19,6 @@ type IBookRepository interface {
 type IBorrowRepository interface {
 	GetAll() []*domain.Borrow
 	Borrow(borrow *domain.Borrow) (*domain.Borrow, error)
+	GetBorrowedBook(userID, bookID string) (*domain.Borrow, error)
+	UpdateStatus(borrowID string, status domain.Status) (*domain.Borrow, error)
 }
