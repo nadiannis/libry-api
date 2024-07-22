@@ -25,6 +25,9 @@ func main() {
 		handlers: handlers,
 	}
 
+	log.Info().Msg("add books")
+	prepopulateBooks(usecases.Books)
+
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", app.port),
 		Handler: app.routes(),
