@@ -106,6 +106,16 @@ func (h *BorrowHandler) Return(w http.ResponseWriter, r *http.Request) {
 			utils.NotFoundResponse(w, r, err)
 		case errors.Is(err, utils.ErrBorrowedBookNotFound):
 			utils.BadRequestResponse(w, r, fmt.Errorf("%s, you are not borrowing the book", err))
+		case errors.Is(err, utils.ErrOverdueBookReturned):
+			res := response.SuccessResponse{
+				Status:  response.Success,
+				Message: "book is returned late",
+				Data:    returnedBook,
+			}
+			err = utils.WriteJSON(w, http.StatusOK, res, nil)
+			if err != nil {
+				utils.ServerErrorResponse(w, r, err)
+			}
 		default:
 			utils.ServerErrorResponse(w, r, err)
 		}
@@ -117,8 +127,45 @@ func (h *BorrowHandler) Return(w http.ResponseWriter, r *http.Request) {
 		Message: "book is returned successfully",
 		Data:    returnedBook,
 	}
+	err = utils.WriteJSON(w, http.StatusOK, res, nil)
+	if err != nil {
+		utils.ServerErrorResponse(w, r, err)
+	}
+}
 
-	err = utils.WriteJSON(w, http.StatusCreated, res, nil)
+func (h *BorrowHandler) UpdateDates(w http.ResponseWriter, r *http.Request) {
+	var input request.BorrowDatesUpdateRequest
+
+	err := utils.ReadJSON(r, &input)
+	if err != nil {
+		utils.BadRequestResponse(w, r, err)
+		return
+	}
+
+	v := utils.NewValidator()
+
+	v.Check(input.BorrowID != "", "borrow_id", "borrow_id is required")
+	v.Check(input.StartDate != "", "start_date", "start_date is required")
+	v.Check(input.EndDate != "", "end_date", "end_date is required")
+
+	if !v.Valid() {
+		utils.FailedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	borrowedBook, err := h.usecase.UpdateDates(&input)
+	if err != nil {
+		utils.ServerErrorResponse(w, r, err)
+		return
+	}
+
+	res := response.SuccessResponse{
+		Status:  response.Success,
+		Message: "borrow dates updated successfully",
+		Data:    borrowedBook,
+	}
+
+	err = utils.WriteJSON(w, http.StatusOK, res, nil)
 	if err != nil {
 		utils.ServerErrorResponse(w, r, err)
 	}

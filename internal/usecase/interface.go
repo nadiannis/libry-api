@@ -19,4 +19,5 @@ type IBorrowUsecase interface {
 	GetAll() []*domain.Borrow
 	Borrow(body *request.BorrowRequest) (*domain.Borrow, error)
 	Return(body *request.BorrowRequest) (*domain.Borrow, error)
+	UpdateDates(BorrowDatesUpdateRequest *request.BorrowDatesUpdateRequest) (*domain.Borrow, error)
 }

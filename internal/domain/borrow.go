@@ -7,6 +7,7 @@ type Status string
 var (
 	StatusBorrowed Status = "borrowed"
 	StatusReturned Status = "returned"
+	StatusOverdue  Status = "overdue"
 )
 
 type Borrow struct {

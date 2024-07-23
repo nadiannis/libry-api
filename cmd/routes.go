@@ -14,6 +14,7 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("GET /api/borrowed-books", app.handlers.Borrows.GetAll)
 	mux.HandleFunc("POST /api/borrowed-books", app.handlers.Borrows.Borrow)
 	mux.HandleFunc("PATCH /api/borrowed-books", app.handlers.Borrows.Return)
+	mux.HandleFunc("PATCH /api/borrowed-books/dates", app.handlers.Borrows.UpdateDates)
 
 	return requestLogger(mux)
 }

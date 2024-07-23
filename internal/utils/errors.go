@@ -14,6 +14,7 @@ var (
 	ErrBookNotFound          = errors.New("book not found")
 	ErrBorrowedBookNotFound  = errors.New("borrowed book not found")
 	ErrBookCurrentlyBorrowed = errors.New("book is currently borrowed")
+	ErrOverdueBookReturned   = errors.New("overdue book returned")
 )
 
 func errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {

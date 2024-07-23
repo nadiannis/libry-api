@@ -1,6 +1,10 @@
 package repository
 
-import "github.com/nadiannis/libry-api/internal/domain"
+import (
+	"time"
+
+	"github.com/nadiannis/libry-api/internal/domain"
+)
 
 type IUserRepository interface {
 	GetAll() []*domain.User
@@ -21,4 +25,5 @@ type IBorrowRepository interface {
 	Borrow(borrow *domain.Borrow) (*domain.Borrow, error)
 	GetBorrowedBook(userID, bookID string) (*domain.Borrow, error)
 	UpdateStatus(borrowID string, status domain.Status) (*domain.Borrow, error)
+	UpdateDates(borrowID string, startDate, endDate time.Time) (*domain.Borrow, error)
 }

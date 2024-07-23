@@ -7,6 +7,7 @@ import (
 	"github.com/nadiannis/libry-api/internal/domain"
 	"github.com/nadiannis/libry-api/internal/domain/request"
 	"github.com/nadiannis/libry-api/internal/repository"
+	"github.com/nadiannis/libry-api/internal/utils"
 )
 
 type BorrowUsecase struct {
@@ -77,12 +78,28 @@ func (u *BorrowUsecase) Return(body *request.BorrowRequest) (*domain.Borrow, err
 		return nil, err
 	}
 
-	returnedBook, err := u.borrowRepository.UpdateStatus(borrowedBook.ID, domain.StatusReturned)
-	if err != nil {
-		return nil, err
+	var returnedBook *domain.Borrow
+	if utils.DateIsAfter(time.Now(), borrowedBook.EndDate) {
+		returnedBook, err = u.borrowRepository.UpdateStatus(borrowedBook.ID, domain.StatusOverdue)
+		if err != nil {
+			return nil, err
+		} else {
+			err = utils.ErrOverdueBookReturned
+		}
+	} else {
+		returnedBook, err = u.borrowRepository.UpdateStatus(borrowedBook.ID, domain.StatusReturned)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	u.userRepository.DeleteBookByID(user.ID, book.ID)
 
-	return returnedBook, nil
+	return returnedBook, err
+}
+
+func (u *BorrowUsecase) UpdateDates(body *request.BorrowDatesUpdateRequest) (*domain.Borrow, error) {
+	startDate, _ := time.Parse("2006-01-02", body.StartDate)
+	endDate, _ := time.Parse("2006-01-02", body.EndDate)
+	return u.borrowRepository.UpdateDates(body.BorrowID, startDate, endDate)
 }

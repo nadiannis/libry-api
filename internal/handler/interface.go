@@ -16,4 +16,5 @@ type IBorrowHandler interface {
 	GetAll(w http.ResponseWriter, r *http.Request)
 	Borrow(w http.ResponseWriter, r *http.Request)
 	Return(w http.ResponseWriter, r *http.Request)
+	UpdateDates(w http.ResponseWriter, r *http.Request)
 }
