@@ -21,7 +21,7 @@ func (u *UserUsecase) GetAll() []*domain.User {
 	return u.repository.GetAll()
 }
 
-func (u *UserUsecase) Add(input *request.UserRequest) *domain.User {
+func (u *UserUsecase) Add(input *request.UserRequest) (*domain.User, error) {
 	user := &domain.User{
 		ID:       uuid.NewString(),
 		Username: input.Username,

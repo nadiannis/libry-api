@@ -8,7 +8,7 @@ import (
 
 type IUserRepository interface {
 	GetAll() []*domain.User
-	Add(user *domain.User) *domain.User
+	Add(user *domain.User) (*domain.User, error)
 	GetByID(userID string) (*domain.User, error)
 	AddBook(userID string, book *domain.Book) (*domain.Book, error)
 	DeleteBookByID(userID, bookID string) error

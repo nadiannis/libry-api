@@ -10,6 +10,7 @@ import (
 )
 
 var (
+	ErrUserAlreadyExists     = errors.New("user already exists")
 	ErrUserNotFound          = errors.New("user not found")
 	ErrBookNotFound          = errors.New("book not found")
 	ErrBorrowedBookNotFound  = errors.New("borrowed book not found")

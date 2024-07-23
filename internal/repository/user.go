@@ -23,9 +23,15 @@ func (r *UserRepository) GetAll() []*domain.User {
 	return users
 }
 
-func (r *UserRepository) Add(user *domain.User) *domain.User {
+func (r *UserRepository) Add(user *domain.User) (*domain.User, error) {
+	for _, u := range r.db {
+		if u.Username == user.Username {
+			return nil, utils.ErrUserAlreadyExists
+		}
+	}
+
 	r.db[user.ID] = user
-	return user
+	return user, nil
 }
 
 func (r *UserRepository) GetByID(userID string) (*domain.User, error) {

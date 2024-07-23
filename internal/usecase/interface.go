@@ -7,7 +7,7 @@ import (
 
 type IUserUsecase interface {
 	GetAll() []*domain.User
-	Add(input *request.UserRequest) *domain.User
+	Add(input *request.UserRequest) (*domain.User, error)
 }
 
 type IBookUsecase interface {

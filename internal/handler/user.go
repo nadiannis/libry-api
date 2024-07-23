@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/nadiannis/libry-api/internal/domain/request"
@@ -52,7 +53,16 @@ func (h *UserHandler) Add(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := h.usecase.Add(&input)
+	user, err := h.usecase.Add(&input)
+	if err != nil {
+		switch {
+		case errors.Is(err, utils.ErrUserAlreadyExists):
+			utils.BadRequestResponse(w, r, err)
+		default:
+			utils.ServerErrorResponse(w, r, err)
+		}
+		return
+	}
 
 	res := response.SuccessResponse{
 		Status:  response.Success,
