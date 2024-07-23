@@ -16,7 +16,7 @@
 
 [`^ back to top ^`](#table-of-contents)
 
-**Libry API** is a simple REST API that allows people to borrow books from a library. The app is made with Go. It is created as an exercise in the Go phase of the Backend Development Training.
+**Libry API** is a simple REST API that allows people to borrow books from a library. This project is made with Go. It is created as an exercise in the Go phase of the Backend Development Training.
 
 ## Features
 
